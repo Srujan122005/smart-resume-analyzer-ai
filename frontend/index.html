@@ -226,7 +226,10 @@
 
     <script>
         // Configuration
-        const API_BASE_URL = 'http://localhost:5000';
+        const API_BASE_URL = (() => {
+            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            return isLocal ? 'http://localhost:5000' : '';
+        })();
         
         // DOM Elements
         const dropzone = document.getElementById('dropzone');
@@ -610,7 +613,7 @@
                     <div class="flex flex-col items-center justify-center space-y-4 py-8">
                         <span class="material-symbols-outlined text-5xl text-error">error</span>
                         <p class="text-error font-body-md">Error: ${error.message}</p>
-                        <p class="text-on-surface-variant text-sm">Please make sure the backend server is running at ${API_BASE_URL}</p>
+                        <p class="text-on-surface-variant text-sm">Please make sure the backend API is available on this site.</p>
                     </div>
                 `;
                 resultsPlaceholder.classList.remove('hidden');
@@ -661,7 +664,7 @@
                     <div class="flex flex-col items-center justify-center space-y-4 py-8">
                         <span class="material-symbols-outlined text-5xl text-error">error</span>
                         <p class="text-error font-body-md">Error: ${error.message}</p>
-                        <p class="text-on-surface-variant text-sm">Please make sure the backend server is running at ${API_BASE_URL}</p>
+                        <p class="text-on-surface-variant text-sm">Please make sure the backend API is available on this site.</p>
                     </div>
                 `;
                 resultsPlaceholder.classList.remove('hidden');

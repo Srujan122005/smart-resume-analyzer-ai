@@ -1,0 +1,11 @@
+{
+  "version": 3,
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/api/$1.py" },
+    { "src": "/health", "dest": "/api/health.py" },
+    { "src": "/analyze-text", "dest": "/api/analyze_text.py" },
+    { "src": "/upload-file", "dest": "/api/upload_file.py" },
+    { "src": "/", "dest": "/frontend/index.html" },
+    { "src": "/(.*)", "dest": "/frontend/$1" }
+  ]
+}

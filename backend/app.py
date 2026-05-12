@@ -807,10 +807,14 @@ def upload_file():
         }), 500
 
 if __name__ == '__main__':
+    host = os.getenv('HOST', '0.0.0.0')
+    port = int(os.getenv('PORT', 5000))
+    debug = os.getenv('FLASK_DEBUG', 'false').lower() in ('1', 'true', 'yes')
+
     print("🚀 Starting Resume Analyzer Backend...")
-    print("📍 Server running at http://localhost:5000")
+    print(f"📍 Server running at http://{host}:{port}")
     print("📝 Available endpoints:")
     print("   GET  /health - Health check")
     print("   POST /analyze-text - Analyze text input")
     print("   POST /upload-file - Upload and analyze file")
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=debug, host=host, port=port)
