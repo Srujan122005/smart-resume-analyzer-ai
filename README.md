@@ -33,6 +33,11 @@ This repository is now configured to run entirely on Vercel:
 
 - Frontend requests to `/analyze-text`, `/upload-file`, and `/health` will route to Vercel Python functions.
 - File upload is supported through the existing form upload flow.
+- There is no committed `.env` file in this repo. Local env settings can be stored in a `.env` file at the project root, and Vercel env vars should be configured in the Vercel dashboard.
+
+## Local environment variables
+
+Create a `.env` file at the repo root for local testing if you need it. Example values are shown in `.env.example`.
 
 ## Deploying the backend elsewhere
 
