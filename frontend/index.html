@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#b9c8de",
+                        "on-primary-fixed": "#07006c",
+                        "on-primary": "#1000a9",
+                        "surface-container-high": "#292932",
+                        "surface-variant": "#34343d",
+                        "inverse-surface": "#e4e1ed",
+                        "outline-variant": "#464554",
+                        "outline": "#908fa0",
+                        "on-tertiary": "#4f2500",
+                        "surface-tint": "#c0c1ff",
+                        "tertiary-container": "#d97721",
+                        "primary-fixed-dim": "#c0c1ff",
+                        "tertiary": "#ffb783",
+                        "on-surface-variant": "#c7c4d7",
+                        "tertiary-fixed-dim": "#ffb783",
+                        "on-tertiary-fixed": "#301400",
+                        "on-primary-container": "#0d0096",
+                        "on-error": "#690005",
+                        "surface-container-lowest": "#0d0d15",
+                        "secondary-container": "#39485a",
+                        "on-secondary": "#233143",
+                        "on-tertiary-fixed-variant": "#703700",
+                        "surface-container-highest": "#34343d",
+                        "on-secondary-fixed-variant": "#39485a",
+                        "on-secondary-fixed": "#0d1c2d",
+                        "inverse-primary": "#494bd6",
+                        "surface-container": "#1f1f27",
+                        "surface-container-low": "#1b1b23",
+                        "on-primary-fixed-variant": "#2f2ebe",
+                        "inverse-on-surface": "#303038",
+                        "primary-container": "#8083ff",
+                        "background": "#13131b",
+                        "primary": "#c0c1ff",
+                        "on-surface": "#e4e1ed"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "lg": "1.5rem",
+                        "gutter": "1.5rem",
+                        "md": "1rem",
+                        "sm": "0.5rem",
+                        "unit": "4px",
+                        "xl": "2rem",
+                        "xs": "0.25rem",
+                        "margin": "2rem"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-xl": ["Manrope"],
+                        "headline-md": ["Manrope"],
+                        "label-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-xl": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #13131b;
+        }
+        /* Light mode body background */
+        html:not(.dark) body {
+            background-color: #f3f4f6;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .animate-spin {
+            animation: spin 0.6s linear infinite;
+        }
+        .drag-over {
+            border-color: #c0c1ff !important;
+            background-color: rgba(192, 193, 255, 0.1) !important;
+        }
+    </style>
+</head>
+
+<body class="font-body-md text-on-surface antialiased min-h-screen flex flex-col bg-background">
+    <!-- TopAppBar -->
+    <header class="bg-surface-container border-b border-outline-variant shadow-sm fixed top-0 w-full z-50">
+        <div class="flex justify-between items-center h-16 px-6 w-full max-w-7xl mx-auto font-headline-md antialiased">
+            <div class="text-xl font-bold tracking-tight text-on-surface">
+                Smart Resume Analyzer
+            </div>
+            <div class="flex items-center gap-4">
+                <button class="material-symbols-outlined text-primary p-2 hover:bg-surface-container-high transition-colors rounded-full" id="theme-toggle">
+                    light_mode
+                </button>
+                <button class="material-symbols-outlined text-primary p-2 hover:bg-surface-container-high transition-colors rounded-full account-btn" data-icon="account_circle">
+                    account_circle
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Canvas -->
+    <main class="flex-grow pt-24 pb-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto space-y-8">
+
+            <!-- Hero Header Section -->
+            <section class="bg-surface-container border border-outline-variant rounded-3xl p-8 shadow-sm text-center">
+                <div class="max-w-2xl mx-auto space-y-3">
+                    <p class="text-sm uppercase tracking-[0.28em] text-primary">AI Resume Matcher</p>
+                    <h1 class="font-headline-xl text-headline-xl text-on-surface">Analyze your resume smartly</h1>
+                    <p class="font-body-lg text-body-lg text-on-surface-variant">Get polished alignment insights, missing skill recommendations, and career-focused suggestions.</p>
+                </div>
+            </section>
+
+            <!-- Input Section -->
+            <section class="grid gap-6 xl:grid-cols-[1.3fr_0.7fr]">
+                <div class="bg-surface-container border border-outline-variant rounded-3xl p-6 shadow-sm space-y-6">
+                    <div class="flex items-start justify-between gap-4">
+                        <div>
+                            <p class="text-sm font-semibold uppercase tracking-[0.18em] text-primary">Resume Input</p>
+                            <h2 class="font-headline-md text-headline-md mt-2 text-on-surface">Upload your resume or paste text</h2>
+                        </div>
+                        <span class="material-symbols-outlined text-3xl text-primary">description</span>
+                    </div>
+
+                    <div id="dropzone" class="border-2 border-dashed border-outline bg-surface-container-high rounded-3xl p-8 flex flex-col items-center justify-center gap-4 transition-all hover:border-primary hover:bg-surface-container-low cursor-pointer">
+                        <span class="material-symbols-outlined text-5xl text-primary">upload_file</span>
+                        <p class="font-body-md text-on-surface">Drag and drop your PDF here</p>
+                        <p class="font-body-sm text-on-surface-variant">or click Browse to select a file</p>
+                        <button id="browse-btn" class="px-5 py-2 rounded-full border border-primary text-primary text-sm font-semibold hover:bg-primary/10 transition">Browse files</button>
+                        <input type="file" id="file-input" accept=".pdf" class="hidden" />
+                    </div>
+
+                    <div id="file-info" class="hidden bg-surface-container-high rounded-2xl p-4 text-sm text-on-surface-variant flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-2">
+                            <span class="material-symbols-outlined text-lg">description</span>
+                            <span id="file-name"></span>
+                        </div>
+                        <button id="clear-file" class="text-red-400 hover:text-red-300 text-sm font-semibold">Clear</button>
+                    </div>
+
+                    <textarea id="resume-text" class="w-full min-h-[180px] p-4 bg-surface-container-highest border border-outline-variant rounded-3xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all placeholder:text-outline text-on-surface font-body-md" placeholder="Alternatively, paste your resume text here..."></textarea>
+                </div>
+
+                <div class="bg-surface-container border border-outline-variant rounded-3xl p-6 shadow-sm flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex items-start justify-between gap-4">
+                            <div>
+                                <p class="text-sm font-semibold uppercase tracking-[0.18em] text-primary">Job Description</p>
+                                <h2 class="font-headline-md text-headline-md mt-2 text-on-surface">Paste the role details</h2>
+                            </div>
+                            <span class="material-symbols-outlined text-3xl text-primary">work_outline</span>
+                        </div>
+                        <textarea id="job-description" class="w-full min-h-[320px] p-4 bg-surface-container-highest border border-outline-variant rounded-3xl focus:ring-2 focus:ring-primary focus:border-transparent transition-all placeholder:text-outline text-on-surface font-body-md" placeholder="Paste the target job description to analyze alignment..."></textarea>
+                    </div>
+                    <button id="analyze-btn" class="w-full mt-6 py-4 bg-primary text-on-primary font-headline-md rounded-3xl shadow-md hover:bg-primary/90 active:scale-[0.98] transition-all flex items-center justify-center gap-3">
+                        <span class="material-symbols-outlined">analytics</span>
+                        Analyze
+                    </button>
+                </div>
+            </section>
+
+            <!-- Result Section -->
+            <section class="bg-surface-container border border-outline-variant rounded-3xl p-6 shadow-sm">
+                <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6">
+                    <div>
+                        <p class="text-sm uppercase tracking-[0.18em] text-primary">Analysis Results</p>
+                        <h2 class="font-headline-md text-headline-md text-on-surface mt-2">Match insights and next steps</h2>
+                    </div>
+                    <div class="text-sm text-on-surface-variant max-w-xl">Results appear here after analysis. The AI delivers score, skills gaps, and practical recommendations.</div>
+                </div>
+
+                <div id="results-placeholder" class="flex flex-col items-center justify-center text-on-surface-variant space-y-4 py-16 rounded-3xl border border-dashed border-outline-variant bg-surface-container-highest">
+                    <span class="material-symbols-outlined text-6xl text-primary">pending_actions</span>
+                    <p class="font-headline-md text-headline-md text-on-surface">Results will appear here</p>
+                    <p class="font-body-md text-center max-w-md">Once you click Analyze, your resume will be evaluated against the job description and actionable suggestions will appear.</p>
+                </div>
+                <div id="results-content" class="hidden space-y-6"></div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-surface-container border-t border-outline-variant">
+        <div class="flex flex-col md:flex-row justify-between items-center py-8 px-6 max-w-7xl mx-auto font-body-sm text-on-surface-variant">
+            <div class="font-bold text-on-surface mb-4 md:mb-0">
+                Smart Resume Analyzer
+            </div>
+            <div class="flex flex-col md:flex-row items-center gap-6">
+                <p>© 2026 Smart Resume Analyzer. Professional AI insights.</p>
+                <div class="flex gap-6">
+                    <a class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer" href="#">Privacy Policy</a>
+                    <a class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer" href="#">Terms of Service</a>
+                    <a class="text-on-surface-variant hover:text-primary transition-colors cursor-pointer" href="#">Help Center</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Configuration
+        const API_BASE_URL = 'http://localhost:5000';
+        
+        // DOM Elements
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('file-input');
+        const browseBtn = document.getElementById('browse-btn');
+        const fileInfo = document.getElementById('file-info');
+        const fileName = document.getElementById('file-name');
+        const clearFileBtn = document.getElementById('clear-file');
+        const resumeTextarea = document.getElementById('resume-text');
+        const jobDescription = document.getElementById('job-description');
+        const analyzeBtn = document.getElementById('analyze-btn');
+        const resultsPlaceholder = document.getElementById('results-placeholder');
+        const resultsContent = document.getElementById('results-content');
+        
+        // State
+        let selectedFile = null;
+        
+        // Theme Toggle - IMPROVED VERSION with localStorage
+        const themeToggle = document.getElementById('theme-toggle');
+        let isDark = true;
+        
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            document.documentElement.classList.remove('dark');
+            isDark = false;
+            themeToggle.textContent = 'dark_mode';
+        } else if (savedTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+            isDark = true;
+            themeToggle.textContent = 'light_mode';
+        }
+        
+        function toggleTheme() {
+            if (isDark) {
+                // Switch to light mode
+                document.documentElement.classList.remove('dark');
+                themeToggle.textContent = 'dark_mode';
+                isDark = false;
+                localStorage.setItem('theme', 'light');
+                showTemporaryMessage('Light mode activated', 'info');
+            } else {
+                // Switch to dark mode
+                document.documentElement.classList.add('dark');
+                themeToggle.textContent = 'light_mode';
+                isDark = true;
+                localStorage.setItem('theme', 'dark');
+                showTemporaryMessage('Dark mode activated', 'info');
+            }
+        }
+        
+        themeToggle.addEventListener('click', toggleTheme);
+        
+        // Account Button
+        const accountBtn = document.querySelector('.account-btn');
+        accountBtn.addEventListener('click', () => {
+            showTemporaryMessage('Account features coming soon!', 'info');
+        });
+        
+        // File Upload Handlers
+        browseBtn.addEventListener('click', () => {
+            fileInput.click();
+        });
+        
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files[0]) {
+                handleFileSelect(e.target.files[0]);
+            }
+        });
+        
+        // Drag and drop handlers
+        dropzone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropzone.classList.add('drag-over');
+        });
+        
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('drag-over');
+        });
+        
+        dropzone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropzone.classList.remove('drag-over');
+            const files = e.dataTransfer.files;
+            if (files && files[0]) {
+                handleFileSelect(files[0]);
+            }
+        });
+        
+        clearFileBtn.addEventListener('click', () => {
+            selectedFile = null;
+            fileInput.value = '';
+            fileInfo.classList.add('hidden');
+            resumeTextarea.disabled = false;
+            resumeTextarea.placeholder = "Alternatively, paste your resume text here...";
+            showTemporaryMessage('File removed', 'info');
+        });
+        
+        function handleFileSelect(file) {
+            if (file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
+                selectedFile = file;
+                fileName.textContent = file.name;
+                fileInfo.classList.remove('hidden');
+                resumeTextarea.disabled = true;
+                resumeTextarea.placeholder = "PDF selected. Click 'Clear' to paste text instead.";
+                resumeTextarea.value = '';
+                showTemporaryMessage(`File "${file.name}" selected successfully!`, 'success');
+            } else {
+                showTemporaryMessage('Please upload PDF files only', 'error');
+            }
+        }
+        
+        // Clear resume textarea when file is selected
+        resumeTextarea.addEventListener('input', () => {
+            if (resumeTextarea.value.trim()) {
+                selectedFile = null;
+                fileInput.value = '';
+                fileInfo.classList.add('hidden');
+            }
+        });
+        
+        // Helper Functions
+        function showTemporaryMessage(message, type) {
+            const toast = document.createElement('div');
+            toast.className = `fixed top-20 right-6 z-50 px-4 py-3 rounded-lg shadow-lg transition-all transform translate-x-0 ${
+                type === 'error' ? 'bg-red-600 text-white' : 
+                type === 'success' ? 'bg-green-600 text-white' : 
+                'bg-blue-600 text-white'
+            }`;
+            toast.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm">
+                        ${type === 'error' ? 'error' : type === 'success' ? 'check_circle' : 'info'}
+                    </span>
+                    <span>${message}</span>
+                </div>
+            `;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.transform = 'translateX(400px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+        
+        function showLoading() {
+            analyzeBtn.disabled = true;
+            analyzeBtn.innerHTML = `
+                <div class="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
+                Analyzing...
+            `;
+            resultsPlaceholder.classList.add('hidden');
+            resultsContent.classList.add('hidden');
+            resultsContent.innerHTML = '';
+            resultsPlaceholder.classList.remove('hidden');
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'flex flex-col items-center justify-center space-y-4 py-8';
+            loadingDiv.innerHTML = `
+                <div class="animate-spin rounded-full h-12 w-12 border-3 border-primary border-t-transparent"></div>
+                <p class="text-on-surface-variant font-body-md">AI is analyzing your resume...</p>
+            `;
+            resultsPlaceholder.innerHTML = '';
+            resultsPlaceholder.appendChild(loadingDiv);
+            resultsPlaceholder.classList.remove('hidden');
+        }
+        
+        function hideLoading() {
+            analyzeBtn.disabled = false;
+            analyzeBtn.innerHTML = `
+                <span class="material-symbols-outlined" data-icon="analytics" data-weight="fill" style="font-variation-settings: 'FILL' 1;">analytics</span>
+                Analyze
+            `;
+        }
+        
+        function parseNumericScore(rawScore) {
+            if (rawScore === null || rawScore === undefined) {
+                throw new Error('Score is missing');
+            }
+            const normalized = String(rawScore).replace(/[^0-9.-]/g, '');
+            const score = Number(normalized);
+            if (Number.isNaN(score)) {
+                throw new Error('Score is invalid');
+            }
+            return Math.max(0, Math.min(100, Math.round(score)));
+        }
+
+        async function safeParseResponse(response) {
+            const rawText = await response.text();
+            console.log('Raw AI response text:', rawText);
+            try {
+                return JSON.parse(rawText);
+            } catch (error) {
+                console.error('Response JSON parse error:', error);
+                throw new Error('Invalid JSON response from backend');
+            }
+        }
+
+        function displayResults(data) {
+            console.log('Parsed response data:', data);
+            const matchScore = parseNumericScore(data.match_score);
+            const confidenceScore = parseNumericScore(data.confidence_score);
+            console.log('Final matchScore used in UI:', matchScore);
+            console.log('Final confidenceScore used in UI:', confidenceScore);
+
+            let scoreColor = '#ef4444';
+            let badgeClasses = 'bg-red-500/10 text-red-300';
+            if (matchScore >= 75) {
+                scoreColor = '#22c55e';
+                badgeClasses = 'bg-emerald-500/10 text-emerald-300';
+            } else if (matchScore >= 50) {
+                scoreColor = '#f59e0b';
+                badgeClasses = 'bg-amber-500/10 text-amber-300';
+            }
+
+            const confidenceColor = confidenceScore >= 75 ? '#22c55e' : confidenceScore >= 50 ? '#f59e0b' : '#ef4444';
+            const analysisSummary = data.analysis_summary || 'Resume match analysis completed.';
+            const strongMatches = data.strong_matches || [];
+            const missingSkills = data.missing_skills || [];
+            const recommendations = data.recommendations || [];
+            const courseRecommendations = data.course_recommendations || [];
+            const projectRecommendations = data.project_recommendations || [];
+            const categoryBreakdown = data.category_breakdown || {};
+
+            let html = `
+                <div class="space-y-4">
+                    <div class="bg-surface-container-highest rounded-3xl p-6 shadow-xl border border-outline-variant">
+                        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+                            <div>
+                                <div class="text-6xl font-extrabold" style="color: ${scoreColor}">${matchScore}<span class="text-3xl">%</span></div>
+                                <div class="text-2xl font-semibold text-on-surface mt-2">${data.match_level || 'Low'}</div>
+                                <p class="text-sm text-on-surface-variant mt-2">Match Score</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="px-3 py-2 rounded-full text-sm font-semibold ${badgeClasses}">Confidence ${confidenceScore}%</span>
+                            </div>
+                        </div>
+                        <div class="mt-6 space-y-3">
+                            <div class="space-y-2 text-sm text-on-surface-variant">
+                                <div class="flex justify-between"><span>Match strength</span><span>${matchScore}%</span></div>
+                                <div class="h-2 bg-surface-container-low rounded-full overflow-hidden">
+                                    <div class="h-full rounded-full" style="width: ${matchScore}%; background: ${scoreColor};"></div>
+                                </div>
+                            </div>
+                            <div class="space-y-2 text-sm text-on-surface-variant">
+                                <div class="flex justify-between"><span>Confidence</span><span>${confidenceScore}%</span></div>
+                                <div class="h-2 bg-surface-container-low rounded-full overflow-hidden">
+                                    <div class="h-full rounded-full" style="width: ${confidenceScore}%; background: ${confidenceColor};"></div>
+                                </div>
+                            </div>
+                            <p class="text-sm text-on-surface">${analysisSummary}</p>
+                        </div>
+                    </div>
+
+                    <div class="grid gap-4 lg:grid-cols-2">
+                        <div class="bg-surface-container-highest rounded-3xl p-5 shadow-lg border border-outline-variant">
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="material-symbols-outlined text-primary">bolt</span>
+                                <h3 class="font-semibold text-on-surface">Strong Matches</h3>
+                            </div>
+                            <div class="flex flex-wrap gap-2">
+                                ${strongMatches.length > 0 ? strongMatches.map(tag => `<span class="px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-300 text-sm">${tag}</span>`).join('') : '<span class="text-on-surface-variant text-sm">No strong matches detected.</span>'}
+                            </div>
+                        </div>
+
+                        <div class="bg-surface-container-highest rounded-3xl p-5 shadow-lg border border-outline-variant">
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="material-symbols-outlined text-warning">warning</span>
+                                <h3 class="font-semibold text-on-surface">Missing Skills</h3>
+                            </div>
+                            <div class="flex flex-wrap gap-2">
+                                ${missingSkills.length > 0 ? missingSkills.map(tag => `<span class="px-3 py-1 rounded-full bg-orange-600/10 text-orange-300 text-sm">${tag}</span>`).join('') : '<span class="text-on-surface-variant text-sm">No key gaps detected.</span>'}
+                            </div>
+                        </div>
+                    </div>
+
+                    ${Object.keys(categoryBreakdown).length > 0 ? `
+                    <div class="bg-surface-container-highest rounded-3xl p-5 shadow-lg border border-outline-variant">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="material-symbols-outlined text-primary">category</span>
+                            <h3 class="font-semibold text-on-surface">Skill Category Breakdown</h3>
+                        </div>
+                        <div class="space-y-3">
+                            ${Object.entries(categoryBreakdown).map(([category, percentage]) => {
+                                let catColor = percentage >= 75 ? '#22c55e' : percentage >= 50 ? '#f59e0b' : '#ef4444';
+                                return `
+                                <div class="space-y-1">
+                                    <div class="flex justify-between text-sm">
+                                        <span class="text-on-surface capitalize">${category}</span>
+                                        <span style="color: ${catColor}; font-weight: 600;">${percentage}%</span>
+                                    </div>
+                                    <div class="h-2 bg-surface-container-low rounded-full overflow-hidden">
+                                        <div class="h-full rounded-full" style="width: ${percentage}%; background: ${catColor};"></div>
+                                    </div>
+                                </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                    ` : ''}
+
+                    <div class="bg-surface-container-highest rounded-3xl p-5 shadow-lg border border-outline-variant">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="material-symbols-outlined text-primary">lightbulb</span>
+                            <h3 class="font-semibold text-on-surface">Recommendations</h3>
+                        </div>
+                        <ul class="space-y-3 text-sm text-on-surface-variant">
+                            ${recommendations.length > 0 ? recommendations.map(rec => `<li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-sm mt-0.5">chevron_right</span>${rec}</li>`).join('') : '<li>No recommendations available.</li>'}
+                        </ul>
+                    </div>
+
+                    <div class="grid gap-4 lg:grid-cols-2">
+                        <div class="bg-surface-container-highest rounded-3xl p-5 shadow-lg border border-outline-variant">
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="material-symbols-outlined text-primary">school</span>
+                                <h3 class="font-semibold text-on-surface">Course Recommendations</h3>
+                            </div>
+                            <ul class="space-y-3 text-sm text-on-surface-variant">
+                                ${courseRecommendations.length > 0 ? courseRecommendations.map(course => `<li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-sm mt-0.5">chevron_right</span>${course}</li>`).join('') : '<li>No course suggestions available.</li>'}
+                            </ul>
+                        </div>
+                        <div class="bg-surface-container-highest rounded-3xl p-5 shadow-lg border border-outline-variant">
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="material-symbols-outlined text-primary">build_circle</span>
+                                <h3 class="font-semibold text-on-surface">Project Recommendations</h3>
+                            </div>
+                            <ul class="space-y-3 text-sm text-on-surface-variant">
+                                ${projectRecommendations.length > 0 ? projectRecommendations.map(project => `<li class="flex items-start gap-2"><span class="material-symbols-outlined text-primary text-sm mt-0.5">chevron_right</span>${project}</li>`).join('') : '<li>No project suggestions available.</li>'}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            resultsContent.innerHTML = html;
+            resultsPlaceholder.classList.add('hidden');
+            resultsContent.classList.remove('hidden');
+        }
+        
+        // API Calls
+        async function analyzeWithText() {
+            const resumeText = resumeTextarea.value.trim();
+            const jobDesc = jobDescription.value.trim();
+            
+            if (!resumeText) {
+                showTemporaryMessage('Please paste your resume or upload a file', 'error');
+                return false;
+            }
+            
+            if (!jobDesc) {
+                showTemporaryMessage('Please enter a job description', 'error');
+                return false;
+            }
+            
+            showLoading();
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/analyze-text`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        resume_text: resumeText,
+                        job_description: jobDesc
+                    })
+                });
+                
+                const result = await safeParseResponse(response);
+                console.log('Parsed analysis response:', result);
+                
+                if (result.success) {
+                    displayResults(result.data);
+                    showTemporaryMessage('Analysis completed successfully!', 'success');
+                    return true;
+                } else {
+                    throw new Error(result.error || 'Analysis failed');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showTemporaryMessage(error.message, 'error');
+                resultsPlaceholder.innerHTML = `
+                    <div class="flex flex-col items-center justify-center space-y-4 py-8">
+                        <span class="material-symbols-outlined text-5xl text-error">error</span>
+                        <p class="text-error font-body-md">Error: ${error.message}</p>
+                        <p class="text-on-surface-variant text-sm">Please make sure the backend server is running at ${API_BASE_URL}</p>
+                    </div>
+                `;
+                resultsPlaceholder.classList.remove('hidden');
+                resultsContent.classList.add('hidden');
+                return false;
+            } finally {
+                hideLoading();
+            }
+        }
+        
+        async function analyzeWithFile() {
+            if (!selectedFile) {
+                return false;
+            }
+            
+            const jobDesc = jobDescription.value.trim();
+            if (!jobDesc) {
+                showTemporaryMessage('Please enter a job description', 'error');
+                return false;
+            }
+            
+            showLoading();
+            
+            const formData = new FormData();
+            formData.append('resume_file', selectedFile);
+            formData.append('job_description', jobDesc);
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/upload-file`, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await safeParseResponse(response);
+                console.log('Parsed upload response:', result);
+                
+                if (result.success) {
+                    displayResults(result.data);
+                    showTemporaryMessage('File analyzed successfully!', 'success');
+                    return true;
+                } else {
+                    throw new Error(result.error || 'File analysis failed');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showTemporaryMessage(error.message, 'error');
+                resultsPlaceholder.innerHTML = `
+                    <div class="flex flex-col items-center justify-center space-y-4 py-8">
+                        <span class="material-symbols-outlined text-5xl text-error">error</span>
+                        <p class="text-error font-body-md">Error: ${error.message}</p>
+                        <p class="text-on-surface-variant text-sm">Please make sure the backend server is running at ${API_BASE_URL}</p>
+                    </div>
+                `;
+                resultsPlaceholder.classList.remove('hidden');
+                resultsContent.classList.add('hidden');
+                return false;
+            } finally {
+                hideLoading();
+            }
+        }
+        
+        async function handleAnalyze() {
+            if (selectedFile) {
+                await analyzeWithFile();
+            } else if (resumeTextarea.value.trim()) {
+                await analyzeWithText();
+            } else {
+                showTemporaryMessage('Please provide a resume (upload file or paste text)', 'error');
+            }
+        }
+        
+        analyzeBtn.addEventListener('click', handleAnalyze);
+        
+        // Check backend health on load
+        async function checkBackendHealth() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/health`);
+                if (response.ok) {
+                    console.log('✅ Backend is running');
+                    showTemporaryMessage('Connected to backend server', 'success');
+                } else {
+                    console.warn('⚠️ Backend health check failed');
+                }
+            } catch (error) {
+                console.warn('⚠️ Backend not reachable');
+                resultsPlaceholder.innerHTML = `
+                    <div class="flex flex-col items-center justify-center space-y-4 py-8">
+                        <span class="material-symbols-outlined text-5xl text-warning">cloud_off</span>
+                        <p class="text-on-surface-variant font-body-md">Backend not connected</p>
+                        <p class="text-on-surface-variant text-sm text-center">Please start the Flask server with: <code class="bg-surface-container-high px-2 py-1 rounded">python app.py</code></p>
+                    </div>
+                `;
+            }
+        }
+        
+        checkBackendHealth();
+    </script>
+</body>
+</html>
