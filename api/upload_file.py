@@ -1,9 +1,11 @@
 import base64
 import json
 import os
+import sys
 import tempfile
 from email.parser import BytesParser
 from email.policy import default
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 from backend.app import allowed_file, extract_text_from_pdf, analyze_match
 
 CORS_HEADERS = {
